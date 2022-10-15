@@ -1,0 +1,96 @@
+Copyright Omer Tarik Ilhan 314CAa 2021-2022
+
+Pentru a implementa programul, am luat un loop infinit pe care il parcurgem
+si verificam de fiecare data ce litera se citeste de la tastatura.
+
+In cazul in care nu este o litera a carei comenzi este implementata,
+by default, spunem user-ului ca nu este cunoscuta comanda.
+
+Deoarece trebuie sa retin multe matrice pe parcursul unei folosiri
+a programului, consideram un "vector de matrice", adica un triplu pointer,
+care contine o multitudine de dublu pointeri, fiecare continand adresa unei
+matrice din colectia de matrice introdusa de utilizator.
+
+Pe langa functiile pentru input-urile propriu-zise, am facut cateva functii
+foarte folositoare. Una din acestea este read_and_alloc_matrix, care aloca spatiul
+necesar unei matrice, apoi citeste elementele sale de la tastatura si
+returneaza pointerul cu adresa matricei citite.
+O functie foarte similara este alloc_and_init_matrix(), care aloca spatiul unei
+matrice si initializeaza cu 0 valorile ei - foarte folositoare la
+inmultirea matricelor.
+
+O alta functie este cea de sum_matrix(), care face suma elementelor, necesara
+pentru ordonarea matricelor in vector. Functia multiply_mat() face ce ii
+spune numele si returneaza pointer-ul cu adresa matricei rezultat.
+Functia print_matrix() afiseaza elementele unei matrice.
+Functia free_matrix() elibereaza memoria la care se afla o matrice data
+ca parametru.
+
+Functia extend_vect() realoca vectorul de matrice, astfel incat sa aiba
+spatiul necesar pentru inca o matrice (dublu pointer).
+
+La inceputul loop-ului, verificam daca mai este loc in vectorul de matrice
+pentru inca o matrice. In cazul in care nu mai este, il extindem cu dimensiunea
+unei matrice (adica cu 8 biti, memoria necesara unui pointer / dublu pointer).
+
+In cazul in care utilizatorul incearca sa opereze pe o matrice inexistenta,
+programul ii spune acest lucru (adica verificam daca indexul introdus de
+utilizator este mai mare sau nu fata de numarul de matrice din memorie).
+
+La citirea literei 'L', alocam spatiu pentru o noua matrice, o citim,
+si marim cu 1 numarul matricei curente, ceea ce inseamna ca la urmatoarea
+iterare prin loop, se va mari si vectorul de matrice, ca sa aiba loc urmatoarea
+matrice ce va fi alocata / calculata.
+
+La citirea literei 'P', afisam matricea respectiva, ceea ce este destul
+de straight-forward.
+
+La citirea literei 'D', afisam dimensiunile matricei respective, care sunt
+memorate in 2 vectori pe parcursul intregii rulari a programului, asemeneni
+matricelor din vectorul de matrice. Indexul unei matrice din vectorul de
+matrice este acelasi cu cel al dimensiunilor sale in cei
+2 vectori de dimensiune.
+
+La citirea literei 'M', inmultim 2 matrice, iar rezultatul este pus la capatul
+vectorului de matrice. Pentru inmultirea matricei, ne folosim de aceeasi
+functie aplicata pentru a extinde vectorul de matrice, apoi alocam un spatiu
+nou pentru matricea rezultat, iar pointer-ul care contine adresa rezultatului
+este adaugat la finalul vectorului de matrice.
+
+La citirea literei 'O', ordonam crescator toate matricele din memorie
+in functie de suma elementelor fiecarei matrice. Pentru a interschimba
+2 matrice intre ele, interschimbam de fapt doar pointerii cu adresele lor.
+
+La citirea literei 'F', eliberam memoria la care se afla o singura matrice.
+Apoi, shiftam toate matricele (adica pointerii cu adresele lor) cu o pozitie
+mai la 'stanga' pentru a acoperi golul lasat de matricea stearsa.
+
+La citirea literei 'T', calculam transpusa unei matrice, si o inlocuim in
+vectorul de matrice. Pentru a face asta, ne folosim de o matrice auxiliara.
+De fapt, alocam o noua matrice in care punem transpusa, eliberam memoria
+matricei vechi, apoi in vectorul de matrice schimbam pointerul cu adresa
+matricei vechi cu pointerul cu adresa matricei transpuse.
+
+La citirea literei 'C', redimensionam o matrice. Dupa citirea indexului
+matricei, citim numarul de linii pe care vrem sa le pastram, apoi liniile
+respective, dupa care citim numarul de coloane, respectiv coloanele.
+Ne folosim de liniile si coloanele citite anterior, memorate in 2 vectori,
+pentru a crea o noua matrice, cea redimensionata. Pentru a o insera in locul
+celei vechi in vectorul de matrice, ne folosim de aceeasi metoda ca la 'T'.
+
+La citirea literei 'Q', eliberam toata memoria, apoi iesim din program.
+Pentru a elibera toata memoria, mai intai eliberam fiecare matrice in parte,
+adica intai liniile ei, apoi dublu pointerul ce contine adresa matricei.
+Apoi, eliberam vectorul de matrice, si cei doi vectori cu dimensiunile.
+La finalul loop-ului, daca litera citita era 'Q', iesim din loop, iar
+programul se incheie.
+
+La citirea literei 'S', inmultim 2 matrice folosind algoritmul Strassen.
+Strassen este realizata recursiv. Incepem prin a sparge cele 2 matrice
+in cate 4 submatrice, de care ma voi folosi pentru a calcula cele 7
+matrice intermediare M1-7. Apoi, pe acelea le voi folosi pentru a
+calcula cele 4 matrice C, care vor fi reconstruite intr-o singura matrice.
+Acest algoritm se va aplica pentru fiecare "nivel". In final, matricea
+rezultat va fi returnata de functia de pe primul nivel.
+
+Sper ca am fost destul de detaliat :)
